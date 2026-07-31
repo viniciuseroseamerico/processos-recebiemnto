@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Cobasi · Central de Operações</title>
+<title>Suporte Recebimento · Central de Documentos</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap');
 
@@ -22,7 +22,7 @@
     --c-pdf:#a8442f;
     --c-doc:#3a5a78;
     --c-sheet:#3f6b4f;
-    --c-link:#6b4f8a;
+    --c-img:#6b4f8a;
   }
 
   *{box-sizing:border-box;}
@@ -91,15 +91,6 @@
   }
 
   nav{ display:flex; flex-direction:column; gap:2px; }
-  nav .nav-label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:#7c8271;
-    margin:14px 10px 6px;
-  }
-  nav .nav-label:first-child{ margin-top:0; }
   nav a{
     color:#c7cbb9;
     text-decoration:none;
@@ -232,11 +223,12 @@
     border-radius:2px;
     line-height:1;
     margin-top:2px;
+    text-transform:uppercase;
   }
   .chip-pdf{ background:var(--c-pdf); }
   .chip-doc{ background:var(--c-doc); }
   .chip-sheet{ background:var(--c-sheet); }
-  .chip-link{ background:var(--c-link); }
+  .chip-img{ background:var(--c-img); }
 
   .card .info{ flex:1; min-width:0; }
   .card .title{
@@ -247,13 +239,18 @@
     margin-bottom:3px;
   }
   .card .meta{ font-size:11.5px; color:var(--sub); line-height:1.4; }
-  .card .arrow{
+  .card .dl{
     flex-shrink:0;
     color:#a39a7c;
-    font-size:14px;
+    font-size:12px;
     margin-left:auto;
     align-self:center;
+    font-family:'IBM Plex Mono', monospace;
+    display:flex;
+    align-items:center;
+    gap:5px;
   }
+  .card:hover .dl{ color:var(--accent-dark); }
 
   ::selection{ background:var(--accent); color:#20281f; }
 
@@ -267,192 +264,92 @@
 <body>
 
   <aside class="sidebar">
-    <div class="brand">Painel <span>Cobasi</span></div>
-    <div class="brand-sub">Central de operações</div>
+    <div class="brand">Suporte <span>Recebimento</span></div>
+    <div class="brand-sub">Central de documentos</div>
 
     <div class="search-box">
-      <input type="text" id="search" placeholder="Buscar arquivo ou ferramenta...">
+      <input type="text" id="search" placeholder="Buscar documento...">
     </div>
 
     <nav>
-      <span class="nav-label">Tutoriais</span>
-      <a href="#recebimento">Recebimento <span class="count">6</span></a>
-      <a href="#inventario">Inventário <span class="count">3</span></a>
-
-      <span class="nav-label">Operação</span>
-      <a href="#utilitarios">Utilitários <span class="count">8</span></a>
-      <a href="#arquivos">Arquivos <span class="count">6</span></a>
-      <a href="#manuais">Manuais <span class="count">5</span></a>
-      <a href="#patrimonio">Transf. de Bem <span class="count">3</span></a>
+      <a href="#notas-fiscais">Notas Fiscais de Entrada <span class="count">5</span></a>
+      <a href="#inventario">Inventário <span class="count">2</span></a>
+      <a href="#manuais">Manuais <span class="count">4</span></a>
+      <a href="#controle-ativos">Controle de Ativos <span class="count">4</span></a>
+      <a href="#holambra">Holambra <span class="count">4</span></a>
+      <a href="#planilhas">Arquivos e Planilhas <span class="count">8</span></a>
+      <a href="#organograma">Organograma <span class="count">2</span></a>
     </nav>
 
     <div class="sidebar-footer">
-      Acesso livre, sem login,<br>
-      para abrir ou baixar arquivos.
+      Documentos disponíveis para<br>
+      consulta, download e edição.
     </div>
   </aside>
 
   <main>
     <div class="top">
       <span class="badge">Acesso livre · sem login</span>
-      <h1>Central de Recebimento &amp; Estoque</h1>
-      <p>Tutoriais, sistemas, planilhas, manuais e comunicados do time de recebimento, tudo em um só lugar. Use a busca ao lado para encontrar rápido o que precisa.</p>
+      <h1>Central de Documentos do Recebimento</h1>
+      <p>Manuais, formulários, planilhas e comunicados usados no dia a dia do setor. Baixe, edite e devolva à sua pasta local sempre que precisar atualizar algo.</p>
       <div class="stats">
-        <div class="stat"><b>31</b><span>Itens</span></div>
-        <div class="stat"><b>6</b><span>Categorias</span></div>
-        <div class="stat"><b>0</b><span>Login exigido</span></div>
+        <div class="stat"><b>29</b><span>Documentos</span></div>
+        <div class="stat"><b>7</b><span>Categorias</span></div>
+        <div class="stat"><b>100%</b><span>Editáveis</span></div>
       </div>
     </div>
 
     <p class="no-results">Nenhum resultado encontrado.</p>
 
-    <section class="group" id="recebimento">
+    <section class="group" id="notas-fiscais">
       <div class="group-head">
-        <h2>Tutoriais · Recebimento</h2>
-        <span class="tag">passo a passo</span>
+        <h2>Notas Fiscais de Entrada</h2>
+        <span class="tag">recebimento · passo a passo</span>
       </div>
       <div class="cards">
-        <a class="card" data-search="dobra de nf" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/i17se1rcu9bechlz2r4tz/DOBRA-DE-NF.odt?rlkey=asr0bm50m5m64f5as36gi6tu4&st=dvlb11gt&dl=0">
+        <a class="card" data-search="dobra de nf" download href="files/notas-fiscais-entradas/DOBRA-DE-NF.odt">
           <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Dobra de NF</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Dobra de NF</div><div class="meta">508 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="notificacao de produtos" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/waqddp4t2gq8wnr2f62hl/Notifica-o-de-produtos.odt?rlkey=gm6r36nq1gickviiw8zso8oxo&st=rntjtec6&dl=0">
+        <a class="card" data-search="notificacao de produtos" download href="files/notas-fiscais-entradas/Notificacao-de-produtos.odt">
           <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Notificação de Produtos</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Notificação de Produtos</div><div class="meta">183 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="saida brindes" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/un24hfkp4pzn1bu3zoe8x/Sa-da-Brindes.odt?rlkey=392pdp8jtjwma8a9bl1jk752y&st=eqrm98x3&dl=0">
+        <a class="card" data-search="saida de brindes" download href="files/notas-fiscais-entradas/Saida-Brindes.odt">
           <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Saída Brindes</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Saída de Brindes</div><div class="meta">152 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="saida de uniformes" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/31bfpq6s8w1ep51id22hg/Sa-da-Uniformes.odt?rlkey=rr2eni51rcykgjck5r58pbvbc&st=7wjbe6qf&dl=0">
+        <a class="card" data-search="saida de uniformes" download href="files/notas-fiscais-entradas/Saida-Uniformes.odt">
           <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Saída de Uniformes</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Saída de Uniformes</div><div class="meta">146 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="lancamento agenda 3 produtor rural" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/tx3z79pvd1cyiet2rc3fg/agenda-3.odt?rlkey=6c3k2giml4qgxbmwovlgrpclp&st=f4z5r3b8&dl=0">
+        <a class="card" data-search="agenda 3 produtor rural" download href="files/notas-fiscais-entradas/agenda-3.odt">
           <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Lançamento Agenda 3 · Produtor Rural</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="acoplar frete holambra e45" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/mis6jfu6e345q1j3ghruv/Acoplar-Frete-Holambra-E45.odt?rlkey=5r8s5kqsuph15wbmxg0mjz6h6&st=z99q0iuc&dl=0">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Acoplar Frete Holambra (E45)</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Lançamento Agenda 3 · Produtor Rural</div><div class="meta">276 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
       </div>
     </section>
 
     <section class="group" id="inventario">
       <div class="group-head">
-        <h2>Tutoriais · Inventário</h2>
+        <h2>Inventário</h2>
         <span class="tag">passo a passo</span>
       </div>
       <div class="cards">
-        <a class="card" data-search="inclusao de inventario" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/6p45gfrmity717a73qimv/Inclus-o-de-Invent-rios.odt?rlkey=r2wveh676m6xuk29llfvqqwbo&dl=0">
+        <a class="card" data-search="inclusao de inventarios" download href="files/inventario/Inclusao-de-Inventarios.odt">
           <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Inclusão de Inventário</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Inclusão de Inventários</div><div class="meta">106 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="atualizacao de inventario" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/y97pl7bmmlf7eclwxr688/Atualiza-o-de-Invent-rio.odt?rlkey=8gmfcn7mmp6go0byqd0jtuz00&dl=0">
+        <a class="card" data-search="atualizacao de inventario" download href="files/inventario/Atualizacao-de-Inventario.odt">
           <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Atualização de Inventário</div><div class="meta">Passo a passo do processo</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="alto giro farmacia" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/zoity4njzg9xvix4othk7/Manual-alto-giro-farmacia.docx?rlkey=xwvqqtxu833nz9at2tcgmru80&dl=0">
-          <span class="tag-chip chip-doc">DOCX</span>
-          <span class="info"><div class="title">Alto Giro Farmácia</div><div class="meta">Manual do processo</div></span>
-          <span class="arrow">↗</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="group" id="utilitarios">
-      <div class="group-head">
-        <h2>Utilitários</h2>
-        <span class="tag">sistemas e ferramentas externas</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="servidor cobasi sistema" target="_blank" rel="noopener" href="https://cobasi.autosky.cloud/">
-          <span class="tag-chip chip-link">SIS</span>
-          <span class="info"><div class="title">Servidor | Cobasi</div><div class="meta">Sistema interno da operação</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="service desk chamados suporte" target="_blank" rel="noopener" href="https://cobasi.desk.ms/?LoginPortal">
-          <span class="tag-chip chip-link">SIS</span>
-          <span class="info"><div class="title">Service Desk</div><div class="meta">Abertura de chamados e suporte</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="monitor fiscal oobj painel gestao" target="_blank" rel="noopener" href="https://monitor.oobj-dfe.com.br/#!/login">
-          <span class="tag-chip chip-link">SIS</span>
-          <span class="info"><div class="title">Monitor Fiscal | OOBJ</div><div class="meta">Painel de gestão fiscal</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="organograma comercial" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/aeg1c0fcktmzu8dzf1ivs/ORGANOGRAMA-15-04-24.docx?rlkey=6n63wjfmco4djy6sxj88ny392&st=i9vrbruv&dl=0">
-          <span class="tag-chip chip-doc">DOC</span>
-          <span class="info"><div class="title">Organograma | Comercial</div><div class="meta">Estrutura da área comercial</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="organograma supply chain" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/f8mc64n926v3nrvc89lrd/ORGANOGRAMA-SUPPLY-5827.JPG?rlkey=z82yz6hyze8vg3q33p4o34rh4&dl=0">
-          <span class="tag-chip chip-link">IMG</span>
-          <span class="info"><div class="title">Organograma | Supply Chain</div><div class="meta">Estrutura da cadeia de suprimentos</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="consulta nfe danfe sefaz nota fiscal" target="_blank" rel="noopener" href="https://meudanfe.com.br/">
-          <span class="tag-chip chip-link">WEB</span>
-          <span class="info"><div class="title">Consulta NF-e e DANFE Online</div><div class="meta">Gerar/baixar DANFE, XML, CT-e junto à SEFAZ</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="lightshot captura de tela" target="_blank" rel="noopener" href="https://app.prntscr.com/build/setup-lightshot.exe">
-          <span class="tag-chip chip-link">APP</span>
-          <span class="info"><div class="title">Lightshot</div><div class="meta">Instalador — captura de tela</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="apache openoffice suite" target="_blank" rel="noopener" href="https://sourceforge.net/projects/openofficeorg.mirror/files/4.1.15/binaries/pt-BR/Apache_OpenOffice_4.1.15_Win_x86_install_pt-BR.exe/download">
-          <span class="tag-chip chip-link">APP</span>
-          <span class="info"><div class="title">Apache OpenOffice</div><div class="meta">Suíte de produtividade gratuita, para .odt/.ods</div></span>
-          <span class="arrow">↗</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="group" id="arquivos">
-      <div class="group-head">
-        <h2>Arquivos</h2>
-        <span class="tag">planilhas e capas de processo</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="capas transferencia" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/2bvgjdimo75e7044yjmds/CAPAS.ods?rlkey=jhz7o2jx8wqjc7n1y8ljtbush&st=vtgnk6he&dl=0">
-          <span class="tag-chip chip-sheet">ODS</span>
-          <span class="info"><div class="title">Capas Transferência</div><div class="meta">Planilha de capas</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="capas documentos" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/lv2ai5d0yfw29jql7zzeg/Capa-de-Documentos.ods?rlkey=q1ejafkyrbkmrrmmqz9nx561d&dl=0">
-          <span class="tag-chip chip-sheet">ODS</span>
-          <span class="info"><div class="title">Capas Documentos</div><div class="meta">Planilha de capas</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="agendas" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/23e7oik8ew6uys19e0cxg/AGENDAS.ods?rlkey=akkjzcab6rtwhj175wspfblma&dl=0">
-          <span class="tag-chip chip-sheet">ODS</span>
-          <span class="info"><div class="title">Agendas</div><div class="meta">Controle de agendamentos</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="solicitacao conserto paleteira" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/31b6mbok0xjgxkkepdt1f/Solicita-o-de-Conserto-de-Paleteiras-12-11-2021.xls?rlkey=5txiwqt34tn5tmf2h8qo8u700&dl=0">
-          <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Solicitação Conserto de Paleteira</div><div class="meta">Formulário de manutenção</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="base reversa cd avarias" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/jvn27thl7opimftdpn7hm/AVARIAS-COBASI.xlsx?rlkey=rv1ef3vcewkbp5sr2gqfmwpqp&dl=0">
-          <span class="tag-chip chip-sheet">XLSX</span>
-          <span class="info"><div class="title">Base Reversa | CD</div><div class="meta">Base de controle de avarias</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="procedimento importados avaria" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/2f87yldodeh0xbp23lxgm/Avaria-Importados-5437.docx?rlkey=huh2kfc3u6p1znsb78m7nq115&dl=0">
-          <span class="tag-chip chip-doc">DOC</span>
-          <span class="info"><div class="title">Procedimento | Importados</div><div class="meta">Tratativa de avarias de produtos importados</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Atualização de Inventário</div><div class="meta">114 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
       </div>
     </section>
@@ -463,54 +360,151 @@
         <span class="tag">recebimento &amp; estoque</span>
       </div>
       <div class="cards">
-        <a class="card" data-search="manual recebimento" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/lhri9jjfxz76avtyme19u/MANUAL-DO-RECEBIMENTO.pdf?rlkey=kttl6mpr6kcz2uh2qgkqq8tma&dl=0">
+        <a class="card" data-search="manual recebimento" download href="files/manuais/manual-recebimento.pdf">
           <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual | Recebimento</div><div class="meta">Guia completo do processo de recebimento</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Manual de Recebimento</div><div class="meta">6,2 MB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="manual processos de estoque" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/n19n03v0hjwsjwcl9zasz/manual-recebimento.pdf?rlkey=wurpr3ko0av7nucgqo559aq0f&dl=0">
+        <a class="card" data-search="manual tratativas de estoque de lojas" download href="files/manuais/Manual-de-tratativas-de-estoque-de-lojas-5798.pdf">
           <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual | Processos de Estoque</div><div class="meta">Rotinas e processos do estoque</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Manual de Tratativas de Estoque de Lojas</div><div class="meta">439 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="manual tratativas de estoque lojas" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/rthgvt21ncwdpjlo5pvbt/Manual-de-tratativas-de-estoque-de-lojas-5798.pdf?rlkey=4fzsdje6tsmil8r9ua77ogf1r&dl=0">
+        <a class="card" data-search="manual identificacao de avarias" download href="files/manuais/Manual-de-identificacao-de-avarias.pdf">
           <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual | Tratativas de Estoque</div><div class="meta">Tratativas de estoque nas lojas</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Manual de Identificação de Avarias</div><div class="meta">3,5 MB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="manual identificacao de avarias" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/nhqn1h4ec2aezphcnxh5a/Manual-de-identifica-o-de-avarias.pdf?rlkey=u0k8r9gg2j10eizl11ni9ybyq&dl=0">
+        <a class="card" data-search="monitor fiscal baixa de arquivos xml" download href="files/manuais/Apresentacao-Monitor-Fiscal-baixa-de-arquivos-XML-Lojas.pdf">
           <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual | Identificação de Avarias</div><div class="meta">Como identificar e classificar avarias</div></span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="card" data-search="manual monitor fiscal oobj xml" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/du5wllp8890rk9a42i8js/Apresenta-o-Monitor-Fiscal-baixa-de-arquivos-XML-Lojas.pdf?rlkey=sa4tkqnj6ueiq3m8m13j6w5uu&dl=0">
-          <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual | Monitor Fiscal - OOBJ</div><div class="meta">Baixa de arquivos XML nas lojas</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Monitor Fiscal · Baixa de Arquivos XML</div><div class="meta">2,6 MB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
       </div>
     </section>
 
-    <section class="group" id="patrimonio">
+    <section class="group" id="controle-ativos">
       <div class="group-head">
-        <h2>Transferência de Bem</h2>
+        <h2>Controle de Ativos</h2>
         <span class="tag">patrimônio</span>
       </div>
       <div class="cards">
-        <a class="card" data-search="comunicado transferencia de bens ativo imobilizado patrimonio" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/50hv9gcdd25z28qjxaj9b/3.-Transferencia-de-Bens-do-Ativo-Imobilizado.xls?rlkey=8je2ptms19ro6vtsxp3hwpfyz&dl=0">
+        <a class="card" data-search="comunicado baixa de bens do ativo" download href="files/controle-ativos/1-Comunicado-de-Baixa-de-Bens-do-Ativo.xls">
           <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Comunicado | Transferência de Bens do Ativo Imobilizado</div><div class="meta">Patrimônio</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Comunicado de Baixa de Bens do Ativo</div><div class="meta">264 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="comunicado remessa retorno conserto patrimonio" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/7dc9eht83idhsy1mk8l94/2.-Comunicado-de-Remessa-Retorno-para-Conserto.xls?rlkey=8fja9d64u08dcieualhufl328&dl=0">
+        <a class="card" data-search="comunicado remessa retorno conserto" download href="files/controle-ativos/2-Comunicado-de-Remessa-Retorno-para-Conserto.xls">
           <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Comunicado | Remessa Retorno de Conserto</div><div class="meta">Patrimônio</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Comunicado de Remessa/Retorno para Conserto</div><div class="meta">238 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
-        <a class="card" data-search="comunicado baixa de bens ativo patrimonio" target="_blank" rel="noopener" href="https://www.dropbox.com/scl/fi/v77jwj3fbtlbukxcynst4/1.-Comunicado-de-Baixa-de-Bens-do-Ativo.xls?rlkey=132y1ge6hcsyjwjrimi0pa8v2&dl=0">
+        <a class="card" data-search="transferencia de bens do ativo imobilizado" download href="files/controle-ativos/3-Transferencia-de-Bens-do-Ativo-Imobilizado.xls">
           <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Comunicado | Baixa de Bens Ativo</div><div class="meta">Patrimônio</div></span>
-          <span class="arrow">↗</span>
+          <span class="info"><div class="title">Transferência de Bens do Ativo Imobilizado</div><div class="meta">224 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="solicitacao de conserto de paleteiras" download href="files/controle-ativos/Solicitacao-de-Conserto-de-Paleteiras-12-11-2021.xls">
+          <span class="tag-chip chip-sheet">XLS</span>
+          <span class="info"><div class="title">Solicitação de Conserto de Paleteiras</div><div class="meta">27 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="group" id="holambra">
+      <div class="group-head">
+        <h2>Holambra</h2>
+        <span class="tag">fornecedor · processos específicos</span>
+      </div>
+      <div class="cards">
+        <a class="card" data-search="acoplar frete holambra e45" download href="files/holambra/Acoplar-Frete-Holambra-E45.odt">
+          <span class="tag-chip chip-doc">ODT</span>
+          <span class="info"><div class="title">Acoplar Frete Holambra (E45)</div><div class="meta">119 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="formulario de faltas holambra" download href="files/holambra/FORMULARIO-DE-FALTAS-HOLAMBRA.docx">
+          <span class="tag-chip chip-doc">DOCX</span>
+          <span class="info"><div class="title">Formulário de Faltas</div><div class="meta">23 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="formulario de qualidade das plantas holambra" download href="files/holambra/FORMULARIO-DE-QUALIDADE-DAS-PLANTAS-HOLAMBRA.docx">
+          <span class="tag-chip chip-doc">DOCX</span>
+          <span class="info"><div class="title">Formulário de Qualidade das Plantas</div><div class="meta">22 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="tratativas holambra" download href="files/holambra/TRATATIVAS-HOLAMBRA.docx">
+          <span class="tag-chip chip-doc">DOCX</span>
+          <span class="info"><div class="title">Tratativas Holambra</div><div class="meta">311 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="group" id="planilhas">
+      <div class="group-head">
+        <h2>Arquivos e Planilhas</h2>
+        <span class="tag">controles diversos</span>
+      </div>
+      <div class="cards">
+        <a class="card" data-search="agendas" download href="files/arquivos-e-planilhas/AGENDAS.ods">
+          <span class="tag-chip chip-sheet">ODS</span>
+          <span class="info"><div class="title">Agendas</div><div class="meta">5,8 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="agrodefesa" download href="files/arquivos-e-planilhas/AGRODEFESA.xlsx">
+          <span class="tag-chip chip-sheet">XLSX</span>
+          <span class="info"><div class="title">Agrodefesa</div><div class="meta">500 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="arranjos wal" download href="files/arquivos-e-planilhas/ARRANJOS-WAL.xlsx">
+          <span class="tag-chip chip-sheet">XLSX</span>
+          <span class="info"><div class="title">Arranjos WAL</div><div class="meta">5,6 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="avaria de importados" download href="files/arquivos-e-planilhas/Avaria-Importados5437.docx">
+          <span class="tag-chip chip-doc">DOCX</span>
+          <span class="info"><div class="title">Avaria de Importados</div><div class="meta">37 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="etiqueta de gondola" download href="files/arquivos-e-planilhas/ETIQUETA-GONDOLA.xlsx">
+          <span class="tag-chip chip-sheet">XLSX</span>
+          <span class="info"><div class="title">Etiqueta de Góndola</div><div class="meta">48 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="logistica reversa por fornecedores" download href="files/arquivos-e-planilhas/Logistica-Reversa-Por-Fornecedores.xlsx">
+          <span class="tag-chip chip-sheet">XLSX</span>
+          <span class="info"><div class="title">Logística Reversa por Fornecedores</div><div class="meta">33 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="capas 159-7 205-4 nf-e agenda 02" download href="files/arquivos-e-planilhas/capas-159-7-P-205-4-Nf-e-Ag-02-e-outras-Agendas.xlsx">
+          <span class="tag-chip chip-sheet">XLSX</span>
+          <span class="info"><div class="title">Capas 159-7 / 205-4 · NF-e Ag.02 e Outras Agendas</div><div class="meta">15 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="capas 159-7 209-7 reversa avarias validade" download href="files/arquivos-e-planilhas/capas-159-7-P-209-7-Reversa-avarias-e-validade.xlsx">
+          <span class="tag-chip chip-sheet">XLSX</span>
+          <span class="info"><div class="title">Capas 159-7 / 209-7 · Reversa, Avarias e Validade</div><div class="meta">10 KB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="group" id="organograma">
+      <div class="group-head">
+        <h2>Organograma</h2>
+        <span class="tag">compras &amp; supply chain</span>
+      </div>
+      <div class="cards">
+        <a class="card" data-search="organograma compras 15-04-24" download href="files/organograma-compras-e-suplay/ORGANOGRAMA-15-04-24.docx">
+          <span class="tag-chip chip-doc">DOCX</span>
+          <span class="info"><div class="title">Organograma · Compras (15/04/24)</div><div class="meta">5 MB</div></span>
+          <span class="dl">⬇ baixar</span>
+        </a>
+        <a class="card" data-search="organograma supply chain" download href="files/organograma-compras-e-suplay/ORGANOGRAMA-SUPPLY5827.jpg">
+          <span class="tag-chip chip-img">JPG</span>
+          <span class="info"><div class="title">Organograma · Supply Chain</div><div class="meta">74 KB</div></span>
+          <span class="dl">⬇ baixar</span>
         </a>
       </div>
     </section>
