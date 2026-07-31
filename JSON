@@ -1,0 +1,263 @@
+[
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "AGENDAS.ods",
+    "new_name": "AGENDAS.ods",
+    "path": "files/arquivos-e-planilhas/AGENDAS.ods",
+    "size_kb": 5.8,
+    "ext": "ods"
+  },
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "AGRODEFESA .xlsx",
+    "new_name": "AGRODEFESA.xlsx",
+    "path": "files/arquivos-e-planilhas/AGRODEFESA.xlsx",
+    "size_kb": 499.9,
+    "ext": "xlsx"
+  },
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "ARRANJOS WAL.xlsx",
+    "new_name": "ARRANJOS-WAL.xlsx",
+    "path": "files/arquivos-e-planilhas/ARRANJOS-WAL.xlsx",
+    "size_kb": 5.6,
+    "ext": "xlsx"
+  },
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "Avaria Importados[5437].docx",
+    "new_name": "Avaria-Importados5437.docx",
+    "path": "files/arquivos-e-planilhas/Avaria-Importados5437.docx",
+    "size_kb": 37.0,
+    "ext": "docx"
+  },
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "ETIQUETA GONDOLA.xlsx",
+    "new_name": "ETIQUETA-GONDOLA.xlsx",
+    "path": "files/arquivos-e-planilhas/ETIQUETA-GONDOLA.xlsx",
+    "size_kb": 48.4,
+    "ext": "xlsx"
+  },
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "Logistica Reversa Por Fornecedores.xlsx",
+    "new_name": "Logistica-Reversa-Por-Fornecedores.xlsx",
+    "path": "files/arquivos-e-planilhas/Logistica-Reversa-Por-Fornecedores.xlsx",
+    "size_kb": 32.6,
+    "ext": "xlsx"
+  },
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "capas 159-7 P_  205-4  Nf-e Ag 02 e outras Agendas.xlsx",
+    "new_name": "capas-159-7-P-205-4-Nf-e-Ag-02-e-outras-Agendas.xlsx",
+    "path": "files/arquivos-e-planilhas/capas-159-7-P-205-4-Nf-e-Ag-02-e-outras-Agendas.xlsx",
+    "size_kb": 15.2,
+    "ext": "xlsx"
+  },
+  {
+    "category": "Arquivos e Planilhas",
+    "category_slug": "arquivos-e-planilhas",
+    "original_name": "capas 159-7 P_  209-7 Reversa avarias e validade.xlsx",
+    "new_name": "capas-159-7-P-209-7-Reversa-avarias-e-validade.xlsx",
+    "path": "files/arquivos-e-planilhas/capas-159-7-P-209-7-Reversa-avarias-e-validade.xlsx",
+    "size_kb": 9.8,
+    "ext": "xlsx"
+  },
+  {
+    "category": "Controle Ativos",
+    "category_slug": "controle-ativos",
+    "original_name": "1. Comunicado de Baixa de Bens do Ativo.xls",
+    "new_name": "1-Comunicado-de-Baixa-de-Bens-do-Ativo.xls",
+    "path": "files/controle-ativos/1-Comunicado-de-Baixa-de-Bens-do-Ativo.xls",
+    "size_kb": 264.0,
+    "ext": "xls"
+  },
+  {
+    "category": "Controle Ativos",
+    "category_slug": "controle-ativos",
+    "original_name": "2. Comunicado de Remessa-Retorno para Conserto.xls",
+    "new_name": "2-Comunicado-de-Remessa-Retorno-para-Conserto.xls",
+    "path": "files/controle-ativos/2-Comunicado-de-Remessa-Retorno-para-Conserto.xls",
+    "size_kb": 237.5,
+    "ext": "xls"
+  },
+  {
+    "category": "Controle Ativos",
+    "category_slug": "controle-ativos",
+    "original_name": "3. Transferencia de Bens do Ativo Imobilizado.xls",
+    "new_name": "3-Transferencia-de-Bens-do-Ativo-Imobilizado.xls",
+    "path": "files/controle-ativos/3-Transferencia-de-Bens-do-Ativo-Imobilizado.xls",
+    "size_kb": 223.5,
+    "ext": "xls"
+  },
+  {
+    "category": "Controle Ativos",
+    "category_slug": "controle-ativos",
+    "original_name": "Solicitação de Conserto de Paleteiras 12-11-2021.xls",
+    "new_name": "Solicitacao-de-Conserto-de-Paleteiras-12-11-2021.xls",
+    "path": "files/controle-ativos/Solicitacao-de-Conserto-de-Paleteiras-12-11-2021.xls",
+    "size_kb": 27.0,
+    "ext": "xls"
+  },
+  {
+    "category": "Holambra",
+    "category_slug": "holambra",
+    "original_name": "Acoplar Frete Holambra (E45).odt",
+    "new_name": "Acoplar-Frete-Holambra-E45.odt",
+    "path": "files/holambra/Acoplar-Frete-Holambra-E45.odt",
+    "size_kb": 119.4,
+    "ext": "odt"
+  },
+  {
+    "category": "Holambra",
+    "category_slug": "holambra",
+    "original_name": "FORMULÁRIO DE FALTAS - HOLAMBRA.docx",
+    "new_name": "FORMULARIO-DE-FALTAS-HOLAMBRA.docx",
+    "path": "files/holambra/FORMULARIO-DE-FALTAS-HOLAMBRA.docx",
+    "size_kb": 22.6,
+    "ext": "docx"
+  },
+  {
+    "category": "Holambra",
+    "category_slug": "holambra",
+    "original_name": "FORMULÁRIO DE QUALIDADE DAS PLANTAS - HOLAMBRA.docx",
+    "new_name": "FORMULARIO-DE-QUALIDADE-DAS-PLANTAS-HOLAMBRA.docx",
+    "path": "files/holambra/FORMULARIO-DE-QUALIDADE-DAS-PLANTAS-HOLAMBRA.docx",
+    "size_kb": 22.3,
+    "ext": "docx"
+  },
+  {
+    "category": "Holambra",
+    "category_slug": "holambra",
+    "original_name": "TRATATIVAS HOLAMBRA.docx",
+    "new_name": "TRATATIVAS-HOLAMBRA.docx",
+    "path": "files/holambra/TRATATIVAS-HOLAMBRA.docx",
+    "size_kb": 311.1,
+    "ext": "docx"
+  },
+  {
+    "category": "Inventario",
+    "category_slug": "inventario",
+    "original_name": "Atualização de Inventário.odt",
+    "new_name": "Atualizacao-de-Inventario.odt",
+    "path": "files/inventario/Atualizacao-de-Inventario.odt",
+    "size_kb": 114.1,
+    "ext": "odt"
+  },
+  {
+    "category": "Inventario",
+    "category_slug": "inventario",
+    "original_name": "Inclusão de Inventários.odt",
+    "new_name": "Inclusao-de-Inventarios.odt",
+    "path": "files/inventario/Inclusao-de-Inventarios.odt",
+    "size_kb": 106.1,
+    "ext": "odt"
+  },
+  {
+    "category": "Manuais",
+    "category_slug": "manuais",
+    "original_name": "Apresentação-Monitor-Fiscal-baixa-de-arquivos-XML-Lojas.pdf",
+    "new_name": "Apresentacao-Monitor-Fiscal-baixa-de-arquivos-XML-Lojas.pdf",
+    "path": "files/manuais/Apresentacao-Monitor-Fiscal-baixa-de-arquivos-XML-Lojas.pdf",
+    "size_kb": 2641.0,
+    "ext": "pdf"
+  },
+  {
+    "category": "Manuais",
+    "category_slug": "manuais",
+    "original_name": "Manual de identificação de avarias.pdf",
+    "new_name": "Manual-de-identificacao-de-avarias.pdf",
+    "path": "files/manuais/Manual-de-identificacao-de-avarias.pdf",
+    "size_kb": 3460.8,
+    "ext": "pdf"
+  },
+  {
+    "category": "Manuais",
+    "category_slug": "manuais",
+    "original_name": "Manual de tratativas de estoque de lojas [5798].pdf",
+    "new_name": "Manual-de-tratativas-de-estoque-de-lojas-5798.pdf",
+    "path": "files/manuais/Manual-de-tratativas-de-estoque-de-lojas-5798.pdf",
+    "size_kb": 439.3,
+    "ext": "pdf"
+  },
+  {
+    "category": "Manuais",
+    "category_slug": "manuais",
+    "original_name": "manual recebimento.pdf",
+    "new_name": "manual-recebimento.pdf",
+    "path": "files/manuais/manual-recebimento.pdf",
+    "size_kb": 6239.4,
+    "ext": "pdf"
+  },
+  {
+    "category": "Notas Fiscais Entradas",
+    "category_slug": "notas-fiscais-entradas",
+    "original_name": "DOBRA DE NF.odt",
+    "new_name": "DOBRA-DE-NF.odt",
+    "path": "files/notas-fiscais-entradas/DOBRA-DE-NF.odt",
+    "size_kb": 508.1,
+    "ext": "odt"
+  },
+  {
+    "category": "Notas Fiscais Entradas",
+    "category_slug": "notas-fiscais-entradas",
+    "original_name": "Notificação de produtos.odt",
+    "new_name": "Notificacao-de-produtos.odt",
+    "path": "files/notas-fiscais-entradas/Notificacao-de-produtos.odt",
+    "size_kb": 183.3,
+    "ext": "odt"
+  },
+  {
+    "category": "Notas Fiscais Entradas",
+    "category_slug": "notas-fiscais-entradas",
+    "original_name": "Saída Brindes.odt",
+    "new_name": "Saida-Brindes.odt",
+    "path": "files/notas-fiscais-entradas/Saida-Brindes.odt",
+    "size_kb": 151.9,
+    "ext": "odt"
+  },
+  {
+    "category": "Notas Fiscais Entradas",
+    "category_slug": "notas-fiscais-entradas",
+    "original_name": "Saída Uniformes.odt",
+    "new_name": "Saida-Uniformes.odt",
+    "path": "files/notas-fiscais-entradas/Saida-Uniformes.odt",
+    "size_kb": 146.3,
+    "ext": "odt"
+  },
+  {
+    "category": "Notas Fiscais Entradas",
+    "category_slug": "notas-fiscais-entradas",
+    "original_name": "agenda 3.odt",
+    "new_name": "agenda-3.odt",
+    "path": "files/notas-fiscais-entradas/agenda-3.odt",
+    "size_kb": 275.7,
+    "ext": "odt"
+  },
+  {
+    "category": "Organograma Compras e Suplay",
+    "category_slug": "organograma-compras-e-suplay",
+    "original_name": "ORGANOGRAMA 15-04-24.docx",
+    "new_name": "ORGANOGRAMA-15-04-24.docx",
+    "path": "files/organograma-compras-e-suplay/ORGANOGRAMA-15-04-24.docx",
+    "size_kb": 5053.3,
+    "ext": "docx"
+  },
+  {
+    "category": "Organograma Compras e Suplay",
+    "category_slug": "organograma-compras-e-suplay",
+    "original_name": "ORGANOGRAMA SUPPLY[5827].JPG",
+    "new_name": "ORGANOGRAMA-SUPPLY5827.jpg",
+    "path": "files/organograma-compras-e-suplay/ORGANOGRAMA-SUPPLY5827.jpg",
+    "size_kb": 74.5,
+    "ext": "jpg"
+  }
+]
