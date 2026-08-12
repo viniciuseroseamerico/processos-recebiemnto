@@ -3,540 +3,904 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Suporte Operacional Recebimento</title>
+<title>Conferência PRO</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f172a;--bg2:#020617;--bg3:#0f172a;
+  --border:#1e293b;--border2:#2d3f5a;
+  --blue:#2563eb;--blue2:#1d4ed8;--blue3:#3b82f6;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --green:#22c55e;--green-bg:rgba(34,197,94,0.12);--green-border:rgba(34,197,94,0.3);
+  --red:#ef4444;--red-bg:rgba(239,68,68,0.12);--red-border:rgba(239,68,68,0.3);
+  --amber:#f59e0b;--amber-bg:rgba(245,158,11,0.12);--amber-border:rgba(245,158,11,0.3);
+  --radius:8px;--radius2:12px;
+}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px}
+.container{max-width:1300px;margin:auto}
 
-  :root{
-    --bg:#f2efe6;
-    --panel:#fbfaf5;
-    --ink:#1c2430;
-    --sub:#605a4c;
-    --line:#d8d2bd;
-    --sidebar:#20281f;
-    --sidebar-ink:#e8e6da;
-    --sidebar-line:#374030;
-    --accent:#e8b545;
-    --accent-dark:#c98f1f;
+/* HEADER */
+.header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.header-icon{width:40px;height:40px;background:var(--blue);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.header h1{font-size:18px;font-weight:700;color:var(--text);letter-spacing:.3px}
+.header p{font-size:12px;color:var(--text2);margin-top:2px}
+.header-badge{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.5px}
 
-    --c-pdf:#a8442f;
-    --c-doc:#3a5a78;
-    --c-sheet:#3f6b4f;
-    --c-img:#6b4f8a;
-  }
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);margin-bottom:16px;padding:20px}
+.card-header{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.card-header-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;background:rgba(37,99,235,0.15)}
+.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text2)}
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    font-family:'Public Sans', sans-serif;
-    background:var(--bg);
-    color:var(--ink);
-    display:flex;
-    min-height:100vh;
-  }
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+input,select{padding:9px 12px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:var(--radius);font-size:13px;width:100%;transition:border .2s}
+input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+input[type=file]{padding:8px 12px;cursor:pointer}
 
-  /* Sidebar */
-  .sidebar{
-    width:264px;
-    flex-shrink:0;
-    background:var(--sidebar);
-    color:var(--sidebar-ink);
-    padding:28px 20px;
-    position:sticky;
-    top:0;
-    height:100vh;
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-  }
-  .brand{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:19px;
-    letter-spacing:-.01em;
-    margin-bottom:2px;
-  }
-  .brand span{ color:var(--accent); }
-  .brand-sub{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10.5px;
-    color:#a3a894;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    margin-bottom:26px;
-  }
+/* BUTTONS */
+.btn{padding:10px 18px;border:none;color:#fff;cursor:pointer;border-radius:var(--radius);font-weight:600;font-size:13px;transition:all .2s;display:inline-flex;align-items:center;gap:6px;letter-spacing:.2px}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:var(--blue)}
+.btn-danger{background:#dc2626}
+.btn-success{background:#16a34a}
+.btn-amber{background:#d97706}
+.btn-sm{padding:7px 12px;font-size:12px}
+.btn-group{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 
-  .search-box{ position:relative; margin-bottom:26px; }
-  .search-box input{
-    width:100%;
-    background:#182018;
-    border:1px solid var(--sidebar-line);
-    color:var(--sidebar-ink);
-    font-family:'Public Sans', sans-serif;
-    font-size:13px;
-    padding:10px 12px 10px 30px;
-    border-radius:3px;
-    outline:none;
-  }
-  .search-box input::placeholder{ color:#7c8271; }
-  .search-box input:focus{ border-color:var(--accent); }
-  .search-box::before{
-    content:"⌕";
-    position:absolute;
-    left:10px; top:50%;
-    transform:translateY(-50%);
-    color:#7c8271;
-    font-size:15px;
-  }
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:16px;text-align:center;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)}
+.stat-card.green::before{background:var(--green)}
+.stat-card.red::before{background:var(--red)}
+.stat-card.amber::before{background:var(--amber)}
+.stat-value{font-size:26px;font-weight:700;color:var(--blue);line-height:1.1;margin:4px 0}
+.stat-card.green .stat-value{color:var(--green)}
+.stat-card.red .stat-value{color:var(--red)}
+.stat-card.amber .stat-value{color:var(--amber)}
+.stat-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
 
-  nav{ display:flex; flex-direction:column; gap:2px; }
-  nav a{
-    color:#c7cbb9;
-    text-decoration:none;
-    font-size:13.5px;
-    font-weight:500;
-    padding:9px 10px;
-    border-radius:3px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    transition:background .15s ease, color .15s ease;
-  }
-  nav a:hover{ background:#2a3327; color:#fff; }
-  nav a .count{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10.5px;
-    color:#83886f;
-  }
+/* PROGRESS */
+.progress-bar{background:var(--border);height:6px;border-radius:3px;overflow:hidden;margin:10px 0}
+.progress-fill{background:linear-gradient(90deg,var(--blue),var(--blue3));height:100%;transition:width .4s ease;border-radius:3px}
 
-  .sidebar-footer{
-    margin-top:auto;
-    padding-top:16px;
-    border-top:1px solid var(--sidebar-line);
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10.5px;
-    color:#7c8271;
-    line-height:1.6;
-  }
+/* SCANNER */
+.scanner-wrapper{display:flex;gap:8px;align-items:center}
+.scanner-input{font-size:16px!important;padding:12px 16px!important;border:2px solid var(--border2)!important;letter-spacing:2px}
+.scanner-input:focus{border-color:var(--blue)!important}
+.scan-feedback{margin-top:10px;padding:10px 14px;border-radius:var(--radius);font-size:13px;font-weight:600;display:none;align-items:center;gap:8px}
+.scan-feedback.show{display:flex}
+.scan-ok{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green)}
+.scan-warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber)}
+.scan-err{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red)}
 
-  /* Main */
-  main{ flex:1; padding:44px 48px 90px; max-width:960px; }
+/* TABELA */
+.table-wrapper{overflow-x:auto;margin-top:12px;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#0a0f1e;color:var(--text2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(37,99,235,.06)}
 
-  .top{ margin-bottom:44px; }
-  .top .badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--accent-dark);
-    margin-bottom:14px;
-  }
-  .top .badge::before{ content:"●"; font-size:9px; }
-  h1{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:clamp(28px,4vw,38px);
-    margin:0 0 12px;
-    letter-spacing:-.01em;
-  }
-  .top p{
-    color:var(--sub);
-    font-size:14.5px;
-    line-height:1.6;
-    max-width:600px;
-    margin:0;
-  }
+/* STATUS BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.badge-ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.badge-falta{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.badge-sobra{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.badge-nf{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
 
-  .stats{ display:flex; gap:26px; margin-top:26px; flex-wrap:wrap; }
-  .stat{ font-family:'IBM Plex Mono', monospace; }
-  .stat b{
-    display:block;
-    font-family:'Space Grotesk', sans-serif;
-    font-size:22px;
-    color:var(--ink);
-  }
-  .stat span{ font-size:10.5px; color:var(--sub); letter-spacing:.06em; text-transform:uppercase; }
+/* NOTA CARD */
+.nota-card{border:1px solid var(--border);border-radius:var(--radius2);margin-bottom:14px;overflow:hidden}
+.nota-header{background:#0a0f1e;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.nota-header strong{color:var(--text);font-size:13px}
+.nota-meta{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--text2)}
+.nota-meta span{display:flex;align-items:center;gap:4px}
+.nota-body{padding:12px}
 
-  .no-results{
-    display:none;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:13px;
-    color:var(--sub);
-    padding:30px 0;
-  }
+/* UPLOAD STATUS */
+.upload-status{margin-top:10px;padding:10px 14px;border-radius:var(--radius);font-size:13px;font-weight:600;display:none}
+.upload-status.show{display:block}
 
-  section.group{ margin-bottom:46px; scroll-margin-top:24px; }
-  .group-head{
-    display:flex;
-    align-items:baseline;
-    gap:12px;
-    margin-bottom:16px;
-    padding-bottom:10px;
-    border-bottom:1.5px solid var(--ink);
-  }
-  .group-head h2{
-    font-family:'Space Grotesk', sans-serif;
-    font-size:18px;
-    font-weight:600;
-    margin:0;
-  }
-  .group-head .tag{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10.5px;
-    color:var(--sub);
-    letter-spacing:.06em;
-  }
+/* COLETOR MOBILE */
+.coletor-area{background:var(--bg3);border:2px dashed var(--border2);border-radius:var(--radius2);padding:20px;text-align:center;transition:border .2s}
+.coletor-area.active{border-color:var(--blue)}
+.coletor-count{font-size:32px;font-weight:700;color:var(--blue);margin:8px 0}
+.coletor-list{max-height:200px;overflow-y:auto;margin-top:12px;text-align:left}
+.coletor-item{display:flex;justify-content:space-between;padding:6px 10px;border-radius:6px;font-size:12px;margin-bottom:4px;background:rgba(255,255,255,.03);border:1px solid var(--border)}
+.coletor-item:hover{background:rgba(37,99,235,.08)}
 
-  .cards{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  @media (max-width:720px){ .cards{ grid-template-columns:1fr; } }
+/* SEPARATOR */
+.sep{border:none;border-top:1px solid var(--border);margin:16px 0}
 
-  .card{
-    position:relative;
-    display:flex;
-    align-items:flex-start;
-    gap:13px;
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:3px;
-    padding:14px 16px;
-    text-decoration:none;
-    color:var(--ink);
-    transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease;
-  }
-  .card:hover{
-    transform:translateY(-2px);
-    box-shadow:2px 4px 0 rgba(28,36,48,0.08);
-    border-color:#a39a7c;
-  }
-  .tag-chip{
-    flex-shrink:0;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9.5px;
-    font-weight:600;
-    letter-spacing:.03em;
-    color:#fff;
-    padding:3px 6px;
-    border-radius:2px;
-    line-height:1;
-    margin-top:2px;
-    text-transform:uppercase;
-  }
-  .chip-pdf{ background:var(--c-pdf); }
-  .chip-doc{ background:var(--c-doc); }
-  .chip-sheet{ background:var(--c-sheet); }
-  .chip-img{ background:var(--c-img); }
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:4px}
+.tab{flex:1;padding:8px 12px;border:none;background:transparent;color:var(--text2);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;transition:all .2s;text-align:center}
+.tab.active{background:var(--blue);color:#fff}
+.tab-content{display:none}
+.tab-content.active{display:block}
 
-  .card .info{ flex:1; min-width:0; }
-  .card .title{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:600;
-    font-size:14px;
-    line-height:1.3;
-    margin-bottom:3px;
-  }
-  .card .meta{ font-size:11.5px; color:var(--sub); line-height:1.4; }
-  .card .dl{
-    flex-shrink:0;
-    color:#a39a7c;
-    font-size:12px;
-    margin-left:auto;
-    align-self:center;
-    font-family:'IBM Plex Mono', monospace;
-    display:flex;
-    align-items:center;
-    gap:5px;
-  }
-  .card:hover .dl{ color:var(--accent-dark); }
+/* CHART */
+.chart-wrapper{max-width:280px;margin:0 auto}
 
-  ::selection{ background:var(--accent); color:#20281f; }
+/* SAVE INDICATOR */
+.save-indicator{position:fixed;bottom:16px;right:16px;background:#16a34a;color:#fff;padding:8px 14px;border-radius:var(--radius);font-size:12px;font-weight:600;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
+.save-indicator.show{opacity:1}
 
-  @media (max-width:860px){
-    body{ flex-direction:column; }
-    .sidebar{ width:100%; height:auto; position:relative; }
-    main{ padding:32px 20px 70px; }
-  }
+/* RESPONSIVE */
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .scanner-wrapper{flex-direction:column}
+  .scanner-wrapper input{width:100%}
+}
 </style>
 </head>
 <body>
+<div class="save-indicator" id="saveIndicator">✓ Salvo automaticamente</div>
+<div class="container">
 
-  <aside class="sidebar">
-    <div class="brand">Suporte Operacional <span>Recebimento</span></div>
-    <div class="brand-sub">Central de documentos</div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-icon">📦</div>
+  <div>
+    <h1>Conferência PRO</h1>
+    <p>Sistema de conferência de mercadorias</p>
+  </div>
+  <div class="header-badge">v2.0</div>
+</div>
 
-    <div class="search-box">
-      <input type="text" id="search" placeholder="Buscar documento...">
+<!-- SETUP -->
+<div class="card" id="setupCard">
+  <div class="card-header"><div class="card-header-icon">⚙️</div><span class="card-title">Nova Conferência</span></div>
+  <div class="form-grid">
+    <div class="form-group"><label>Data</label><input type="date" id="data"></div>
+    <div class="form-group"><label>Nº Lacre</label><input type="text" id="lacre" placeholder="Ex: 00123456"></div>
+    <div class="form-group"><label>Loja / Unidade</label><input type="text" id="loja" placeholder="Ex: Filial Centro"></div>
+    <div class="form-group"><label>Operador</label><input type="text" id="operador" placeholder="Seu nome"></div>
+  </div>
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="iniciar()">▶ Iniciar Conferência</button>
+    <button class="btn btn-amber btn-sm" onclick="restaurarDados()" id="btnRestaurar" style="display:none">🔄 Restaurar Sessão Anterior</button>
+  </div>
+</div>
+
+<!-- SISTEMA PRINCIPAL -->
+<div id="sistema" style="display:none">
+
+<!-- STATS -->
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-label">Notas Fiscais</div><div class="stat-value" id="totalNotas">0</div></div>
+  <div class="stat-card"><div class="stat-label">Total Itens</div><div class="stat-value" id="totalItens">0</div></div>
+  <div class="stat-card green"><div class="stat-label">Conferidos</div><div class="stat-value" id="itensConferidos">0</div></div>
+  <div class="stat-card amber"><div class="stat-label">Divergências</div><div class="stat-value" id="totalDivergencias">0</div></div>
+  <div class="stat-card"><div class="stat-label">Progresso</div><div class="stat-value" id="progressoPercentual">0%</div></div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressoBar" style="width:0%"></div></div>
+
+<!-- TABS PRINCIPAL -->
+<div class="tabs">
+  <button class="tab active" onclick="trocarTab('conferencia')">📋 Conferência</button>
+  <button class="tab" onclick="trocarTab('coletor')">📱 Coletor Mobile</button>
+  <button class="tab" onclick="trocarTab('resumo')">📊 Resumo</button>
+  <button class="tab" onclick="trocarTab('grafico')">📈 Gráfico</button>
+</div>
+
+<!-- TAB: CONFERÊNCIA -->
+<div class="tab-content active" id="tab-conferencia">
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📁</div><span class="card-title">Importar Notas Fiscais (Excel / ZIP)</span></div>
+    <input type="file" id="files" multiple accept=".xls,.xlsx,.zip">
+    <div class="upload-status" id="uploadStatus"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">🔍</div><span class="card-title">Scanner de Código de Barras</span></div>
+    <div class="scanner-wrapper">
+      <input class="scanner-input" id="scanner" placeholder="Aponte o scanner ou digite o EAN..." style="flex:1" autocomplete="off">
+      <button class="btn btn-primary" onclick="processarEAN(document.getElementById('scanner').value);document.getElementById('scanner').value=''">Confirmar</button>
+    </div>
+    <div class="scan-feedback" id="scanMsg"></div>
+  </div>
+
+</div>
+
+<!-- TAB: COLETOR MOBILE -->
+<div class="tab-content" id="tab-coletor">
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📱</div><span class="card-title">Coletor de Códigos via Celular</span></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">
+      Use esta aba no <strong style="color:var(--text)">celular</strong> durante a contagem. Escaneie os códigos de barras com um app leitor ou digitemanualmente. Ao terminar, exporte a planilha e importe na aba "Conferência".
+    </p>
+
+    <div class="coletor-area" id="coletorArea">
+      <div style="font-size:24px;margin-bottom:4px">📱</div>
+      <div style="font-size:12px;color:var(--text2)">Códigos coletados</div>
+      <div class="coletor-count" id="coletorCount">0</div>
+      <div style="font-size:11px;color:var(--text3)">itens na fila</div>
     </div>
 
-    <nav>
-      <a href="#notas-fiscais">Notas Fiscais de Entrada <span class="count">5</span></a>
-      <a href="#inventario">Inventário <span class="count">2</span></a>
-      <a href="#manuais">Manuais <span class="count">4</span></a>
-      <a href="#controle-ativos">Controle de Ativos <span class="count">4</span></a>
-      <a href="#holambra">Holambra <span class="count">4</span></a>
-      <a href="#planilhas">Arquivos e Planilhas <span class="count">8</span></a>
-      <a href="#organograma">Organograma <span class="count">2</span></a>
-    </nav>
-
-    <div class="sidebar-footer">
-      Documentos disponíveis para<br>
-      consulta, download e edição.
-    </div>
-  </aside>
-
-  <main>
-    <div class="top">
-      <span class="badge">Acesso livre · sem login</span>
-      <h1>Central de Documentos do Recebimento</h1>
-      <p>Manuais, formulários, planilhas e comunicados usados no dia a dia do setor. Baixe, edite e devolva à sua pasta local sempre que precisar atualizar algo.</p>
-      <div class="stats">
-        <div class="stat"><b>29</b><span>Documentos</span></div>
-        <div class="stat"><b>7</b><span>Categorias</span></div>
-        <div class="stat"><b>100%</b><span>Editáveis</span></div>
-      </div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <input id="coletorInput" placeholder="EAN ou código de barras" style="flex:1;min-width:200px" autocomplete="off">
+      <button class="btn btn-primary" onclick="adicionarColetor()">+ Adicionar</button>
     </div>
 
-    <p class="no-results">Nenhum resultado encontrado.</p>
+    <div class="coletor-list" id="coletorList"></div>
 
-    <section class="group" id="notas-fiscais">
-      <div class="group-head">
-        <h2>Notas Fiscais de Entrada</h2>
-        <span class="tag">recebimento · passo a passo</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="dobra de nf" download href="files/notas-fiscais-entradas/DOBRA-DE-NF.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Dobra de NF</div><div class="meta">508 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="notificacao de produtos" download href="files/notas-fiscais-entradas/Notificacao-de-produtos.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Notificação de Produtos</div><div class="meta">183 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="saida de brindes" download href="files/notas-fiscais-entradas/Saida-Brindes.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Saída de Brindes</div><div class="meta">152 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="saida de uniformes" download href="files/notas-fiscais-entradas/Saida-Uniformes.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Saída de Uniformes</div><div class="meta">146 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="agenda 3 produtor rural" download href="files/notas-fiscais-entradas/agenda-3.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Lançamento Agenda 3 · Produtor Rural</div><div class="meta">276 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-      </div>
-    </section>
+    <hr class="sep">
+    <div class="btn-group">
+      <button class="btn btn-success btn-sm" onclick="exportarColetor()">📥 Exportar Planilha (.xlsx)</button>
+      <button class="btn btn-primary btn-sm" onclick="document.getElementById('importColetor').click()">📤 Importar Planilha Coletada</button>
+      <button class="btn btn-danger btn-sm" onclick="limparColetor()">🗑 Limpar</button>
+      <input type="file" id="importColetor" accept=".xlsx,.xls,.csv" style="display:none" onchange="importarColetor(this)">
+    </div>
+    <p style="font-size:11px;color:var(--text3);margin-top:8px">
+      💡 Fluxo: Coleta no celular → Exportar planilha → Salvar no Google Drive / WhatsApp → Abrir no computador → Importar aqui → Os códigos serão conferidos automaticamente.
+    </p>
+  </div>
+</div>
 
-    <section class="group" id="inventario">
-      <div class="group-head">
-        <h2>Inventário</h2>
-        <span class="tag">passo a passo</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="inclusao de inventarios" download href="files/inventario/Inclusao-de-Inventarios.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Inclusão de Inventários</div><div class="meta">106 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="atualizacao de inventario" download href="files/inventario/Atualizacao-de-Inventario.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Atualização de Inventário</div><div class="meta">114 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-      </div>
-    </section>
+<!-- TAB: RESUMO -->
+<div class="tab-content" id="tab-resumo">
+  <div id="resumo"></div>
+</div>
 
-    <section class="group" id="manuais">
-      <div class="group-head">
-        <h2>Manuais</h2>
-        <span class="tag">recebimento &amp; estoque</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="manual recebimento" download href="files/manuais/manual-recebimento.pdf">
-          <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual de Recebimento</div><div class="meta">6,2 MB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="manual tratativas de estoque de lojas" download href="files/manuais/Manual-de-tratativas-de-estoque-de-lojas-5798.pdf">
-          <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual de Tratativas de Estoque de Lojas</div><div class="meta">439 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="manual identificacao de avarias" download href="files/manuais/Manual-de-identificacao-de-avarias.pdf">
-          <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Manual de Identificação de Avarias</div><div class="meta">3,5 MB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="monitor fiscal baixa de arquivos xml" download href="files/manuais/Apresentacao-Monitor-Fiscal-baixa-de-arquivos-XML-Lojas.pdf">
-          <span class="tag-chip chip-pdf">PDF</span>
-          <span class="info"><div class="title">Monitor Fiscal · Baixa de Arquivos XML</div><div class="meta">2,6 MB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-      </div>
-    </section>
+<!-- TAB: GRÁFICO -->
+<div class="tab-content" id="tab-grafico">
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📈</div><span class="card-title">Progresso da Conferência</span></div>
+    <div class="chart-wrapper"><canvas id="grafico" width="280" height="280"></canvas></div>
+  </div>
+</div>
 
-    <section class="group" id="controle-ativos">
-      <div class="group-head">
-        <h2>Controle de Ativos</h2>
-        <span class="tag">patrimônio</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="comunicado baixa de bens do ativo" download href="files/controle-ativos/1-Comunicado-de-Baixa-de-Bens-do-Ativo.xls">
-          <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Comunicado de Baixa de Bens do Ativo</div><div class="meta">264 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="comunicado remessa retorno conserto" download href="files/controle-ativos/2-Comunicado-de-Remessa-Retorno-para-Conserto.xls">
-          <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Comunicado de Remessa/Retorno para Conserto</div><div class="meta">238 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="transferencia de bens do ativo imobilizado" download href="files/controle-ativos/3-Transferencia-de-Bens-do-Ativo-Imobilizado.xls">
-          <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Transferência de Bens do Ativo Imobilizado</div><div class="meta">224 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="solicitacao de conserto de paleteiras" download href="files/controle-ativos/Solicitacao-de-Conserto-de-Paleteiras-12-11-2021.xls">
-          <span class="tag-chip chip-sheet">XLS</span>
-          <span class="info"><div class="title">Solicitação de Conserto de Paleteiras</div><div class="meta">27 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-      </div>
-    </section>
+<!-- FINALIZAR -->
+<div class="card">
+  <div class="card-header"><div class="card-header-icon">📄</div><span class="card-title">Finalizar</span></div>
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="gerarRelatorio()">📑 Gerar Relatório PDF</button>
+    <button class="btn btn-danger" onclick="encerrar()">🔚 Encerrar Conferência</button>
+  </div>
+</div>
 
-    <section class="group" id="holambra">
-      <div class="group-head">
-        <h2>Holambra</h2>
-        <span class="tag">fornecedor · processos específicos</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="acoplar frete holambra e45" download href="files/holambra/Acoplar-Frete-Holambra-E45.odt">
-          <span class="tag-chip chip-doc">ODT</span>
-          <span class="info"><div class="title">Acoplar Frete Holambra (E45)</div><div class="meta">119 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="formulario de faltas holambra" download href="files/holambra/FORMULARIO-DE-FALTAS-HOLAMBRA.docx">
-          <span class="tag-chip chip-doc">DOCX</span>
-          <span class="info"><div class="title">Formulário de Faltas</div><div class="meta">23 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="formulario de qualidade das plantas holambra" download href="files/holambra/FORMULARIO-DE-QUALIDADE-DAS-PLANTAS-HOLAMBRA.docx">
-          <span class="tag-chip chip-doc">DOCX</span>
-          <span class="info"><div class="title">Formulário de Qualidade das Plantas</div><div class="meta">22 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="tratativas holambra" download href="files/holambra/TRATATIVAS-HOLAMBRA.docx">
-          <span class="tag-chip chip-doc">DOCX</span>
-          <span class="info"><div class="title">Tratativas Holambra</div><div class="meta">311 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="group" id="planilhas">
-      <div class="group-head">
-        <h2>Arquivos e Planilhas</h2>
-        <span class="tag">controles diversos</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="agendas" download href="files/arquivos-e-planilhas/AGENDAS.ods">
-          <span class="tag-chip chip-sheet">ODS</span>
-          <span class="info"><div class="title">Agendas</div><div class="meta">5,8 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="agrodefesa" download href="files/arquivos-e-planilhas/AGRODEFESA.xlsx">
-          <span class="tag-chip chip-sheet">XLSX</span>
-          <span class="info"><div class="title">Agrodefesa</div><div class="meta">500 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="arranjos wal" download href="files/arquivos-e-planilhas/ARRANJOS-WAL.xlsx">
-          <span class="tag-chip chip-sheet">XLSX</span>
-          <span class="info"><div class="title">Arranjos WAL</div><div class="meta">5,6 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="avaria de importados" download href="files/arquivos-e-planilhas/Avaria-Importados5437.docx">
-          <span class="tag-chip chip-doc">DOCX</span>
-          <span class="info"><div class="title">Avaria de Importados</div><div class="meta">37 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="etiqueta de gondola" download href="files/arquivos-e-planilhas/ETIQUETA-GONDOLA.xlsx">
-          <span class="tag-chip chip-sheet">XLSX</span>
-          <span class="info"><div class="title">Etiqueta de Góndola</div><div class="meta">48 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="logistica reversa por fornecedores" download href="files/arquivos-e-planilhas/Logistica-Reversa-Por-Fornecedores.xlsx">
-          <span class="tag-chip chip-sheet">XLSX</span>
-          <span class="info"><div class="title">Logística Reversa por Fornecedores</div><div class="meta">33 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="capas 159-7 205-4 nf-e agenda 02" download href="files/arquivos-e-planilhas/capas-159-7-P-205-4-Nf-e-Ag-02-e-outras-Agendas.xlsx">
-          <span class="tag-chip chip-sheet">XLSX</span>
-          <span class="info"><div class="title">Capas 159-7 / 205-4 · NF-e Ag.02 e Outras Agendas</div><div class="meta">15 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="capas 159-7 209-7 reversa avarias validade" download href="files/arquivos-e-planilhas/capas-159-7-P-209-7-Reversa-avarias-e-validade.xlsx">
-          <span class="tag-chip chip-sheet">XLSX</span>
-          <span class="info"><div class="title">Capas 159-7 / 209-7 · Reversa, Avarias e Validade</div><div class="meta">10 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="group" id="organograma">
-      <div class="group-head">
-        <h2>Organograma</h2>
-        <span class="tag">compras &amp; supply chain</span>
-      </div>
-      <div class="cards">
-        <a class="card" data-search="organograma compras 15-04-24" download href="files/organograma-compras-e-suplay/ORGANOGRAMA-15-04-24.docx">
-          <span class="tag-chip chip-doc">DOCX</span>
-          <span class="info"><div class="title">Organograma · Compras (15/04/24)</div><div class="meta">5 MB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-        <a class="card" data-search="organograma supply chain" download href="files/organograma-compras-e-suplay/ORGANOGRAMA-SUPPLY5827.jpg">
-          <span class="tag-chip chip-img">JPG</span>
-          <span class="info"><div class="title">Organograma · Supply Chain</div><div class="meta">74 KB</div></span>
-          <span class="dl">⬇ baixar</span>
-        </a>
-      </div>
-    </section>
-  </main>
+</div><!-- /sistema -->
+</div><!-- /container -->
 
 <script>
-  const searchInput = document.getElementById('search');
-  const groups = Array.from(document.querySelectorAll('.group'));
-  const noResults = document.querySelector('.no-results');
+// ===== ESTADO =====
+let dados = JSON.parse(localStorage.getItem('confSAP_v2')) || {notas:[],fora:[],meta:{}};
+let coletorItens = JSON.parse(localStorage.getItem('confColetor')) || [];
+let chart = null;
 
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
-    let anyVisible = false;
+// ===== SALVAR COM INDICADOR =====
+function salvar(){
+  localStorage.setItem('confSAP_v2', JSON.stringify(dados));
+  let ind = document.getElementById('saveIndicator');
+  ind.classList.add('show');
+  clearTimeout(salvar._timer);
+  salvar._timer = setTimeout(()=>ind.classList.remove('show'), 1500);
+}
 
-    groups.forEach(group => {
-      const groupCards = Array.from(group.querySelectorAll('.card'));
-      let groupHasVisible = false;
+function salvarColetor(){
+  localStorage.setItem('confColetor', JSON.stringify(coletorItens));
+}
 
-      groupCards.forEach(card => {
-        const haystack = (card.dataset.search + ' ' + card.innerText).toLowerCase();
-        const match = q === '' || haystack.includes(q);
-        card.style.display = match ? '' : 'none';
-        if (match) groupHasVisible = true;
-      });
+// ===== VERIFICAR SESSÃO ANTERIOR =====
+window.addEventListener('load', ()=>{
+  let saved = localStorage.getItem('confSAP_v2');
+  if(saved){
+    let d = JSON.parse(saved);
+    if(d.notas && d.notas.length > 0){
+      document.getElementById('btnRestaurar').style.display = 'inline-flex';
+    }
+  }
+  // Auto-set date
+  document.getElementById('data').value = new Date().toISOString().split('T')[0];
+  renderColetor();
+});
 
-      group.style.display = groupHasVisible ? '' : 'none';
-      if (groupHasVisible) anyVisible = true;
-    });
+function restaurarDados(){
+  let saved = localStorage.getItem('confSAP_v2');
+  if(!saved) return;
+  dados = JSON.parse(saved);
+  if(dados.meta){
+    if(dados.meta.data) document.getElementById('data').value = dados.meta.data;
+    if(dados.meta.lacre) document.getElementById('lacre').value = dados.meta.lacre;
+    if(dados.meta.loja) document.getElementById('loja').value = dados.meta.loja;
+    if(dados.meta.operador) document.getElementById('operador').value = dados.meta.operador;
+  }
+  document.getElementById('sistema').style.display = 'block';
+  render();
+}
 
-    noResults.style.display = anyVisible ? 'none' : 'block';
+// ===== INICIAR =====
+function iniciar(){
+  let data = document.getElementById('data').value;
+  let lacre = document.getElementById('lacre').value.trim();
+  let loja = document.getElementById('loja').value.trim();
+  let operador = document.getElementById('operador').value.trim();
+  if(!data||!lacre||!loja||!operador){alert('⚠️ Preencha todos os campos!');return;}
+  dados.meta = {data,lacre,loja,operador};
+  salvar();
+  document.getElementById('sistema').style.display = 'block';
+  document.getElementById('scanner').focus();
+  render();
+}
+
+// ===== TABS =====
+function trocarTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    let tabs = ['conferencia','coletor','resumo','grafico'];
+    t.classList.toggle('active', tabs[i]===id);
   });
-</script>
+  document.querySelectorAll('.tab-content').forEach(c=>{
+    c.classList.toggle('active', c.id==='tab-'+id);
+  });
+  if(id==='resumo') render();
+  if(id==='grafico') atualizarGrafico();
+}
 
+// ===== EAN =====
+function ean(v){
+  let d = String(v).replace(/\D/g,'');
+  if(d.length >= 8) return d;
+  return null;
+}
+
+// Remove zeros à esquerda para comparar códigos com quantidade de dígitos
+// diferente (ex: EAN-13 com zero na frente vs UPC-A de 12 dígitos, ou
+// código de 10 dígitos do scanner vs código de 13 dígitos da nota fiscal).
+function normalizarEAN(v){
+  let d = String(v).replace(/\D/g,'').replace(/^0+/, '');
+  return d === '' ? '0' : d;
+}
+
+// ===== EXTRAIR PALETE E UZ =====
+function extrairPaleteUZ(linhas){
+  let palete = '';
+  let uz = '';
+  for(let i=0;i<linhas.length;i++){
+    if(!linhas[i]) continue;
+    let texto = linhas[i].join(' ');
+    if(texto.includes('Palete:')){
+      let mP = texto.match(/Palete[:\s]+(\d+)/i);
+      if(mP) palete = mP[1];
+      let mUZ = texto.match(/Nro\s+UZ\s+Korber[:\s]+(\d+)/i);
+      if(mUZ) uz = mUZ[1];
+    }
+  }
+  return {palete, uz};
+}
+
+// ===== PROCESSAR EXCEL =====
+function processarExcel(buffer, nomeArquivo){
+  try{
+    const wb = XLSX.read(buffer,{type:'array'});
+    const plan = wb.Sheets[wb.SheetNames[0]];
+    const linhas = XLSX.utils.sheet_to_json(plan,{header:1});
+    if(!linhas||linhas.length<2) return null;
+    let itens = [];
+    for(let i=1;i<linhas.length;i++){
+      if(!linhas[i]||!linhas[i][3]) continue;
+      let eanRaw = String(linhas[i][3]).trim();
+      let cod = ean(eanRaw);
+      if(!cod) continue;
+      itens.push({
+        desc: linhas[i][1]||'Sem descrição',
+        ean: cod,
+        qtd: Number(linhas[i][7])||0,
+        conf: 0,
+        codigo: linhas[i][0]||'',
+        valor: Number(linhas[i][11])||0
+      });
+    }
+    let {palete, uz} = extrairPaleteUZ(linhas);
+    return itens.length>0?{nome:nomeArquivo,itens,palete,uz}:null;
+  }catch(e){console.error('Erro:',nomeArquivo,e);return null;}
+}
+
+// ===== IMPORTAR ARQUIVOS NF =====
+document.getElementById('files').onchange = async function(){
+  let statusDiv = document.getElementById('uploadStatus');
+  statusDiv.className = 'upload-status show';
+  statusDiv.style.background = 'var(--amber-bg)';
+  statusDiv.style.border = '1px solid var(--amber-border)';
+  statusDiv.style.color = 'var(--amber)';
+  statusDiv.innerHTML = '⏳ Processando arquivos...';
+  dados.notas = [];
+  dados.fora = [];
+  let processados = 0;
+  for(const file of this.files){
+    const ext = file.name.split('.').pop().toLowerCase();
+    if(ext==='xls'||ext==='xlsx'){
+      const buf = await file.arrayBuffer();
+      const nota = processarExcel(buf, file.name);
+      if(nota){dados.notas.push(nota);processados++;}
+    } else if(ext==='zip'){
+      try{
+        const zip = await JSZip.loadAsync(await file.arrayBuffer());
+        for(const nome in zip.files){
+          const arq = zip.files[nome];
+          if(arq.dir||nome.startsWith('__MACOSX')) continue;
+          const nl = nome.toLowerCase();
+          if(nl.endsWith('.xlsx')||nl.endsWith('.xls')){
+            try{
+              const buf = await arq.async('arraybuffer');
+              const nota = processarExcel(buf, nome);
+              if(nota){dados.notas.push(nota);processados++;}
+            }catch(e){console.error(e);}
+          }
+        }
+      }catch(e){console.error(e);}
+    }
+  }
+  if(processados>0){
+    statusDiv.style.background = 'var(--green-bg)';
+    statusDiv.style.border = '1px solid var(--green-border)';
+    statusDiv.style.color = 'var(--green)';
+    statusDiv.innerHTML = `✅ ${processados} arquivo(s) importado(s) com sucesso!`;
+  } else {
+    statusDiv.style.background = 'var(--red-bg)';
+    statusDiv.style.border = '1px solid var(--red-border)';
+    statusDiv.style.color = 'var(--red)';
+    statusDiv.innerHTML = '❌ Nenhum arquivo válido encontrado!';
+  }
+  salvar();
+  atualizarStats();
+};
+
+// ===== SCANNER INPUT =====
+document.addEventListener('DOMContentLoaded', ()=>{
+  let sc = document.getElementById('scanner');
+  if(sc){
+    sc.addEventListener('keypress', function(e){
+      if(e.key==='Enter'){
+        let v = this.value.trim();
+        if(v){processarEAN(v);this.value='';}
+      }
+    });
+  }
+  let ci = document.getElementById('coletorInput');
+  if(ci){
+    ci.addEventListener('keypress', function(e){
+      if(e.key==='Enter'){adicionarColetor();}
+    });
+  }
+});
+
+// ===== FEEDBACK SCANNER =====
+let feedbackTimer = null;
+function mostrarFeedback(tipo, msg){
+  let el = document.getElementById('scanMsg');
+  el.className = 'scan-feedback show scan-'+tipo;
+  el.innerHTML = msg;
+  clearTimeout(feedbackTimer);
+  feedbackTimer = setTimeout(()=>{
+    el.className = 'scan-feedback';
+    el.innerHTML = '';
+  }, 2500);
+}
+
+// ===== PROCESSAR EAN =====
+function processarEAN(codigo){
+  codigo = String(codigo).trim().replace(/\D/g,'');
+  if(!codigo||codigo.length<4) return;
+  let codigoNorm = normalizarEAN(codigo);
+  let achou = false;
+  for(let n=0;n<dados.notas.length;n++){
+    for(let i=0;i<dados.notas[n].itens.length;i++){
+      let item = dados.notas[n].itens[i];
+      if(normalizarEAN(item.ean)===codigoNorm){
+        if(item.conf<item.qtd){
+          item.conf++;
+          achou = true;
+          mostrarFeedback('ok', `✓ <strong>${item.desc.substring(0,30)}</strong> — Conf: ${item.conf}/${item.qtd}`);
+        } else {
+          // já completo — conta como sobra
+          item.conf++;
+          achou = true;
+          mostrarFeedback('warn', `⚠ SOBRA — <strong>${item.desc.substring(0,30)}</strong> (${item.conf}/${item.qtd})`);
+        }
+        break;
+      }
+    }
+    if(achou) break;
+  }
+  if(!achou){
+    let existe = false;
+    for(let f=0;f<dados.fora.length;f++){
+      if(normalizarEAN(dados.fora[f].ean)===codigoNorm){dados.fora[f].qtd++;existe=true;break;}
+    }
+    if(!existe) dados.fora.push({ean:codigo,qtd:1});
+    mostrarFeedback('err', `✕ EAN <strong>${codigo}</strong> não encontrado nas notas fiscais!`);
+  }
+  salvar();
+  atualizarStats();
+}
+
+// ===== COLETOR MOBILE =====
+function adicionarColetor(){
+  let input = document.getElementById('coletorInput');
+  let v = input.value.trim().replace(/\D/g,'');
+  if(!v||v.length<4){input.focus();return;}
+  let existe = coletorItens.find(c=>c.ean===v);
+  if(existe){existe.qtd++;}
+  else{coletorItens.push({ean:v,qtd:1});}
+  input.value='';input.focus();
+  salvarColetor();
+  renderColetor();
+}
+
+function renderColetor(){
+  let list = document.getElementById('coletorList');
+  let count = document.getElementById('coletorCount');
+  if(!list||!count) return;
+  let total = coletorItens.reduce((s,c)=>s+c.qtd,0);
+  count.textContent = total;
+  if(coletorItens.length===0){list.innerHTML='<p style="font-size:12px;color:var(--text3);text-align:center;padding:12px">Nenhum código coletado ainda</p>';return;}
+  let h = '';
+  for(let i=coletorItens.length-1;i>=0;i--){
+    let c = coletorItens[i];
+    h += `<div class="coletor-item">
+      <span style="font-family:monospace;letter-spacing:1px">${c.ean}</span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span style="background:var(--blue);color:#fff;border-radius:12px;padding:1px 8px;font-size:11px;font-weight:700">${c.qtd}x</span>
+        <button onclick="removerColetor(${i})" style="background:transparent;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0">✕</button>
+      </span>
+    </div>`;
+  }
+  list.innerHTML = h;
+}
+
+function removerColetor(idx){
+  coletorItens.splice(idx,1);
+  salvarColetor();
+  renderColetor();
+}
+
+function limparColetor(){
+  if(confirm('Limpar todos os códigos coletados?')){
+    coletorItens=[];
+    salvarColetor();
+    renderColetor();
+  }
+}
+
+function exportarColetor(){
+  if(coletorItens.length===0){alert('Nenhum código coletado!');return;}
+  let linhas = [['EAN','Quantidade']];
+  for(let c of coletorItens) linhas.push([c.ean,c.qtd]);
+  const ws = XLSX.utils.aoa_to_sheet(linhas);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,'Codigos',ws);
+  XLSX.writeFile(wb,'codigos_coletados_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+function importarColetor(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const wb = XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const linhas = XLSX.utils.sheet_to_json(ws,{header:1});
+      let processados = 0;
+      for(let i=1;i<linhas.length;i++){
+        if(!linhas[i]||!linhas[i][0]) continue;
+        let cod = String(linhas[i][0]).replace(/\D/g,'');
+        let qtd = parseInt(linhas[i][1])||1;
+        if(cod.length<4) continue;
+        for(let q=0;q<qtd;q++) processarEAN(cod);
+        processados++;
+      }
+      alert(`✅ ${processados} código(s) importados e conferidos automaticamente!`);
+      input.value='';
+    }catch(err){alert('Erro ao ler planilha: '+err.message);}
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ===== STATS =====
+function atualizarStats(){
+  let totalNotas = dados.notas.length;
+  let totalItens = 0, conf = 0, divs = 0;
+  for(let n of dados.notas){
+    for(let item of n.itens){
+      totalItens += item.qtd;
+      conf += Math.min(item.conf, item.qtd);
+      if(item.conf !== item.qtd) divs++;
+    }
+  }
+  divs += dados.fora.length;
+  let pct = totalItens>0?(conf/totalItens*100).toFixed(1):0;
+  document.getElementById('totalNotas').textContent = totalNotas;
+  document.getElementById('totalItens').textContent = totalItens;
+  document.getElementById('itensConferidos').textContent = conf;
+  document.getElementById('totalDivergencias').textContent = divs;
+  document.getElementById('progressoPercentual').textContent = pct+'%';
+  document.getElementById('progressoBar').style.width = pct+'%';
+}
+
+// ===== GRÁFICO =====
+function atualizarGrafico(){
+  let total=0,conf=0;
+  for(let n of dados.notas){
+    for(let item of n.itens){
+      total += item.qtd;
+      conf += Math.min(item.conf,item.qtd);
+    }
+  }
+  let falta = Math.max(0, total-conf);
+  let ctx = document.getElementById('grafico');
+  if(!ctx) return;
+  if(chart) chart.destroy();
+  chart = new Chart(ctx.getContext('2d'),{
+    type:'doughnut',
+    data:{
+      labels:[`Conferidos (${conf})`,`Faltam (${falta})`],
+      datasets:[{data:[conf,falta],backgroundColor:['#22c55e','#ef4444'],borderWidth:0,borderRadius:4}]
+    },
+    options:{
+      responsive:true,
+      cutout:'65%',
+      plugins:{
+        legend:{position:'bottom',labels:{color:'#94a3b8',padding:16,font:{size:12}}},
+        tooltip:{callbacks:{label:function(ctx){let t=conf+falta;return ' '+ctx.label+' ('+Math.round(ctx.raw/t*100)+'%)'}}}
+      }
+    }
+  });
+}
+
+// ===== RENDER RESUMO =====
+function render(){
+  let div = document.getElementById('resumo');
+  if(!div) return;
+  let h = '';
+  if(dados.notas.length===0){
+    h = '<div style="text-align:center;padding:32px;color:var(--text2);font-size:13px">Nenhuma nota carregada. Importe arquivos Excel ou ZIP na aba Conferência.</div>';
+  } else {
+    for(let nota of dados.notas){
+      let tot=0,conf=0,faltas=0,sobras=0;
+      for(let item of nota.itens){
+        tot += item.qtd;
+        conf += Math.min(item.conf,item.qtd);
+        let dif = item.conf-item.qtd;
+        if(dif<0) faltas++;
+        else if(dif>0) sobras++;
+      }
+      let pct = tot>0?(conf/tot*100).toFixed(1):0;
+      h += `<div class="nota-card">
+        <div class="nota-header">
+          <strong>📄 ${nota.nome}</strong>
+          <div class="nota-meta">
+            ${nota.palete?`<span style="color:var(--blue)">🔢 Palete: <strong style="color:var(--text)">${nota.palete}</strong></span>`:''}
+            ${nota.uz?`<span style="color:var(--blue)">🏷 UZ: <strong style="color:var(--text)">${nota.uz}</strong></span>`:''}
+            <span>📦 ${tot} itens</span>
+            <span style="color:var(--green)">✓ ${conf} conf.</span>
+            ${faltas>0?`<span style="color:var(--red)">↓ ${faltas} faltas</span>`:''}
+            ${sobras>0?`<span style="color:var(--amber)">↑ ${sobras} sobras</span>`:''}
+            <span style="font-weight:700;color:${pct==100?'var(--green)':'var(--blue)'}">${pct}%</span>
+          </div>
+        </div>
+        <div class="nota-body">
+          <div class="progress-bar" style="margin:0 0 12px"><div class="progress-fill" style="width:${pct}%;background:${pct==100?'#22c55e':'#2563eb'}"></div></div>
+          <div class="table-wrapper"><table>
+            <thead><tr><th>Código</th><th>Descrição</th><th>EAN</th><th style="text-align:center">Qtd NF</th><th style="text-align:center">Conf.</th><th style="text-align:center">Dif.</th><th>Status</th></tr></thead>
+            <tbody>`;
+      for(let item of nota.itens){
+        let dif = item.conf-item.qtd;
+        let badge = dif===0
+          ? '<span class="badge badge-ok">✓ OK</span>'
+          : dif<0
+            ? `<span class="badge badge-falta">↓ FALTA ${Math.abs(dif)}</span>`
+            : `<span class="badge badge-sobra">↑ SOBRA ${dif}</span>`;
+        let difText = dif===0?'-':(dif>0?'+'+dif:dif);
+        let difColor = dif===0?'var(--text3)':dif<0?'var(--red)':'var(--amber)';
+        h += `<tr>
+          <td style="font-family:monospace;font-size:11px">${item.codigo||'-'}</td>
+          <td>${item.desc.substring(0,38)}</td>
+          <td style="font-family:monospace;font-size:11px;color:var(--text2)">${item.ean}</td>
+          <td style="text-align:center">${item.qtd}</td>
+          <td style="text-align:center;font-weight:600">${item.conf}</td>
+          <td style="text-align:center;font-weight:700;color:${difColor}">${difText}</td>
+          <td>${badge}</td>
+        </tr>`;
+      }
+      h += `</tbody></table></div></div></div>`;
+    }
+  }
+  if(dados.fora.length>0){
+    h += `<div class="nota-card">
+      <div class="nota-header" style="background:rgba(239,68,68,0.1);border-bottom:1px solid var(--red-border)">
+        <strong style="color:var(--red)">⚠ Códigos não encontrados nas notas</strong>
+        <div class="nota-meta"><span style="color:var(--red)">${dados.fora.length} código(s)</span></div>
+      </div>
+      <div class="nota-body"><div class="table-wrapper"><table>
+        <thead><tr><th>Código EAN</th><th style="text-align:center">Qtd Escaneada</th><th>Status</th></tr></thead>
+        <tbody>`;
+    for(let f of dados.fora){
+      h += `<tr><td style="font-family:monospace">${f.ean}</td><td style="text-align:center;font-weight:700">${f.qtd}</td><td><span class="badge badge-nf">✕ NÃO ENCONTRADO</span></td></tr>`;
+    }
+    h += `</tbody></table></div></div></div>`;
+  }
+  div.innerHTML = h;
+  atualizarStats();
+}
+
+// ===== RELATÓRIO PDF =====
+function gerarRelatorio(){
+  const {jsPDF} = window.jspdf;
+  let doc = new jsPDF();
+  let y = 20;
+  let meta = dados.meta || {};
+
+  // Cabeçalho
+  doc.setFillColor(37,99,235);
+  doc.rect(0,0,210,30,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(16);doc.setFont(undefined,'bold');
+  doc.text('RELATÓRIO DE CONFERÊNCIA DE MERCADORIAS', 10, 13);
+  doc.setFontSize(9);doc.setFont(undefined,'normal');
+  doc.text('Sistema Conferência PRO v2.0', 10, 22);
+  y = 40;
+
+  // Info da conferência
+  doc.setTextColor(0,0,0);
+  doc.setFillColor(240,244,255);
+  doc.rect(8,y-5,194,24,'F');
+  doc.setFontSize(9);doc.setFont(undefined,'bold');
+  doc.text('DADOS DA CONFERÊNCIA', 12, y+2);
+  doc.setFont(undefined,'normal');
+  doc.text(`Data: ${meta.data||'N/A'}     Lacre: ${meta.lacre||'N/A'}     Loja: ${meta.loja||'N/A'}     Operador: ${meta.operador||'N/A'}`, 12, y+10);
+  y += 30;
+
+  // Totais
+  let totalItens=0,totalConf=0,totalFalta=0,totalSobra=0;
+  let valorDivergencia=0;
+  for(let n of dados.notas){
+    for(let item of n.itens){
+      totalItens += item.qtd;
+      totalConf += Math.min(item.conf,item.qtd);
+      let dif = item.conf-item.qtd;
+      if(dif<0){totalFalta+=Math.abs(dif);valorDivergencia+=Math.abs(dif)*item.valor;}
+      if(dif>0){totalSobra+=dif;}
+    }
+  }
+  let pct = totalItens>0?(totalConf/totalItens*100).toFixed(1):0;
+
+  doc.setFontSize(10);doc.setFont(undefined,'bold');
+  doc.text('RESUMO GERAL', 12, y);
+  y += 6;
+  doc.setFont(undefined,'normal');doc.setFontSize(9);
+  doc.text(`Total de itens nas notas: ${totalItens}`, 12, y);y+=5;
+  doc.text(`Itens conferidos corretamente: ${totalConf}`, 12, y);y+=5;
+  doc.text(`Progresso: ${pct}%`, 12, y);y+=5;
+  doc.setTextColor(220,38,38);
+  doc.text(`Total de FALTAS: ${totalFalta} itens`, 12, y);y+=5;
+  doc.setTextColor(234,88,12);
+  doc.text(`Total de SOBRAS: ${totalSobra} itens`, 12, y);y+=5;
+  doc.setTextColor(220,38,38);
+  doc.text(`Valor estimado em divergência (faltas): R$ ${valorDivergencia.toFixed(2)}`, 12, y);y+=5;
+  doc.setTextColor(0,0,0);
+  y += 8;
+
+  // Divergências por nota
+  for(let nota of dados.notas){
+    let divs = nota.itens.filter(i=>i.conf!==i.qtd);
+    if(divs.length===0) continue;
+    if(y>255){doc.addPage();y=20;}
+
+    doc.setFillColor(230,238,255);
+    doc.rect(8,y-4,194,10,'F');
+    doc.setFontSize(10);doc.setFont(undefined,'bold');doc.setTextColor(0,0,0);
+    doc.text(`Nota: ${nota.nome}`, 12, y+3);
+    y += 12;
+    if(nota.palete||nota.uz){
+      doc.setFontSize(8);doc.setFont(undefined,'normal');doc.setTextColor(30,80,180);
+      let info = [];
+      if(nota.palete) info.push(`Palete: ${nota.palete}`);
+      if(nota.uz) info.push(`UZ Korber: ${nota.uz}`);
+      doc.text(info.join('     '), 12, y);
+      doc.setTextColor(0,0,0);
+      y += 7;
+    }
+
+    // Cabeçalho tabela
+    doc.setFillColor(37,99,235);
+    doc.rect(8,y-4,194,8,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont(undefined,'bold');
+    doc.text('Código',10,y+1);
+    doc.text('Descrição',30,y+1);
+    doc.text('EAN',90,y+1);
+    doc.text('Qtd NF',115,y+1);
+    doc.text('Qtd Conf',130,y+1);
+    doc.text('Diferença',148,y+1);
+    doc.text('Status',165,y+1);
+    doc.text('Vlr Unit',180,y+1);
+    y += 9;
+
+    doc.setFont(undefined,'normal');
+    for(let item of divs){
+      if(y>285){doc.addPage();y=20;}
+      let dif = item.conf-item.qtd;
+      let tipo = dif<0?'FALTA':'SOBRA';
+      doc.setTextColor(0,0,0);
+      if(dif<0){doc.setFillColor(255,235,235);}
+      else{doc.setFillColor(255,248,220);}
+      doc.rect(8,y-3,194,7,'F');
+      doc.text(String(item.codigo||'-').substring(0,10),10,y+2);
+      doc.text(item.desc.substring(0,25),30,y+2);
+      doc.text(item.ean,90,y+2);
+      doc.text(String(item.qtd),118,y+2);
+      doc.text(String(item.conf),134,y+2);
+      if(dif<0){doc.setTextColor(180,0,0);}else{doc.setTextColor(180,90,0);}
+      doc.text((dif>0?'+':'')+dif, 150,y+2);
+      doc.text(tipo, 165,y+2);
+      doc.setTextColor(0,0,0);
+      doc.text('R$ '+item.valor.toFixed(2), 180,y+2);
+      y += 7;
+    }
+    y += 5;
+  }
+
+  // Não encontrados
+  if(dados.fora.length>0){
+    if(y>250){doc.addPage();y=20;}
+    doc.setFillColor(255,235,235);
+    doc.rect(8,y-4,194,10,'F');
+    doc.setFontSize(10);doc.setFont(undefined,'bold');doc.setTextColor(180,0,0);
+    doc.text('CÓDIGOS ESCANEADOS NÃO ENCONTRADOS NAS NOTAS', 12, y+3);
+    y += 12;
+    doc.setFont(undefined,'normal');doc.setFontSize(9);doc.setTextColor(0,0,0);
+    for(let f of dados.fora){
+      if(y>285){doc.addPage();y=20;}
+      doc.text(`EAN: ${f.ean}   |   Qtd escaneada: ${f.qtd}x`, 12, y);
+      y += 6;
+    }
+  }
+
+  // Rodapé
+  let pageCount = doc.internal.getNumberOfPages();
+  for(let i=1;i<=pageCount;i++){
+    doc.setPage(i);
+    doc.setFontSize(8);doc.setTextColor(150,150,150);doc.setFont(undefined,'normal');
+    doc.text(`Conferência PRO v2.0 — Gerado em ${new Date().toLocaleString('pt-BR')} — Pág ${i}/${pageCount}`, 10, 293);
+  }
+
+  doc.save('conferencia_'+new Date().toISOString().slice(0,19).replace(/:/g,'-')+'.pdf');
+}
+
+// ===== ENCERRAR =====
+function encerrar(){
+  if(confirm('⚠️ Encerrar conferência?\nO relatório PDF será gerado antes de limpar os dados.')){
+    gerarRelatorio();
+    localStorage.removeItem('confSAP_v2');
+    setTimeout(()=>location.reload(), 1000);
+  }
+}
+
+// ===== AUTO-FOCUS SCANNER =====
+setInterval(()=>{
+  let sys = document.getElementById('sistema');
+  let sc = document.getElementById('scanner');
+  let tabConf = document.getElementById('tab-conferencia');
+  if(sys&&sys.style.display==='block'&&tabConf&&tabConf.classList.contains('active')&&document.activeElement!==sc){
+    if(!['INPUT','SELECT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){
+      sc.focus();
+    }
+  }
+},800);
+
+// ===== INIT =====
+atualizarStats();
+</script>
 </body>
 </html>
